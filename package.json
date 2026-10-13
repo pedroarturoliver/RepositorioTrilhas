@@ -2,7 +2,7 @@
   "name": "projeto-trilhas",
   "version": "1.0.0",
   "description": "",
-  "main": "repeticoes.js",
+  "main": "sistema-games.js,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
