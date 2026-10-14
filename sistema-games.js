@@ -8,7 +8,7 @@ function mostrarMenu() {
 
     console.log("---------------------------")
     console.log("1 - Cadastrar");
-    console.log("2 - Deleter");
+    console.log("2 - Deletar");
     console.log("3 - Mostrar Equipe");
     console.log("4 - Cálculo da média da equipe");
     console.log("5 - Mostrar informações do jogador: ");
@@ -24,6 +24,7 @@ function mostrarMenu() {
 function mostraEquipe() {
 
     if (time.length === 0) {
+        console.log("Nenhum jogador encontrado!!!")
         return;
     }
 
@@ -42,24 +43,31 @@ function cadastrarJogador() {
     let funcaoJogador = prompt("Digite da função do jogador: ");
     let pontuacaoJogador = Number(prompt("Digite a pontuação: "));
 
-    
-    if(isNaN(pontuacaoJogador)) {
-        console.log("Pontuação inválida!");
-        return;
-    } else {
-        let recruta = {
 
-            nome: nomeJogador,
-            funcao: funcaoJogador,
-            pontuacao: pontuacaoJogador
+    if(buscaJogador(nomeJogador) !== -1) {
+
+        console.log(`Jogador ${nomeJogador} já cadastrado `) 
+    }
+
+    else {
+        if(isNaN(pontuacaoJogador)) {
+            console.log("Pontuação inválida!");
+            return;
+        } else {
+            let recruta = {
+
+                nome: nomeJogador,
+                funcao: funcaoJogador,
+                pontuacao: pontuacaoJogador
+
+            }
+
+
+            time.push(recruta);
+            console.log("Jogador " + recruta.nome + " foi cadastrado com sucesso! ")
+            console.log("-------------------")
 
         }
-
-
-        time.push(recruta);
-        console.log("Jogador " + recruta + " foi cadastrador com sucesso! ")
-        console.log("-------------------")
-
     }
 
 
@@ -76,28 +84,21 @@ function deletarJogador() {
 
 
     let nomeDeletado = prompt("Digite o nome a ser deletado: ");
-    let indexDeletado = -1;
 
+    let index = buscaJogador(nomeDeletado)
 
-    for(let i=0; i < time.length; i++) {
-        if(time[i].nome === nomeDeletado) {
-            indexDeletado = i;
-            break                                                                                                                                                                                             
-        }
+    if(index !== -1) {
+
+        time.splice(index, 1);
+        console.log("Jogador removido com sucesso")
+        console.log("-----------------------------");
+
     }
-
-
-
-    if (indexDeletado === -1) {
+    else {
 
         console.log("Jogador não encontrado")
-        return
 
     }
-
-    time.splice(indexDeletado, 1);
-    console.log("Jogador deletado com sucesso!");
-    console.log("-----------------------------");
 
 
 }
@@ -125,14 +126,29 @@ function calculoDaMedia() {
 
 function buscarJogador() {
 
-    let encontrou = false; // Começamos assumindo que não encontramos ninguém 
-
     let nomeBuscado = prompt("Digite o nome  para ser buscado: ");
 
     console.log("Buscando por: " + nomeBuscado + "..."); 
 
-    
+    // O loop passa por todas as gavetas (posições) do nosso Array 
+    let index = buscaJogador(nomeBuscado);
+    if(index !== -1)
+        
+    {
+        console.log("JOGADOR ENCONTRADO!");
+        console.log("Nome: " + time[index].nome + " | Pontos: " + time[index].pontuacao + " | Função: " + time[index].funcao);
+    }
 
+    else { 
+
+        console.log("O jogador " + nomeBuscado + " não faz parte da nossa equipe."); 
+        return;
+    } 
+
+}
+
+
+function buscaJogador(nomeBuscado) {
 
     // O loop passa por todas as gavetas (posições) do nosso Array 
 
@@ -144,21 +160,11 @@ function buscarJogador() {
 
         if (jogadorAtual.nome === nomeBuscado) { 
 
-            console.log("JOGADOR ENCONTRADO!");
-
-            console.log("Nome: " + jogadorAtual.nome + " | Pontos: " + jogadorAtual.pontuacao); 
-
-            encontrou = true; // Mudamos o status! 
-
-            break; // Já achamos quem queríamos, podemos parar o loop 
+            return i
 
         }
     }
-    if (encontrou === false) { 
-
-        console.log("O jogador " + nomeBuscado + " não faz parte da nossa equipe."); 
-        return;
-    } 
+    return -1;
 
 } 
 
@@ -166,44 +172,37 @@ function buscarJogador() {
 
 function atualizarPontos() {
 
-    let encontrou = false; // Começamos assumindo que não encontramos ninguém 
-
     let nomeBuscado = prompt("Digite o nome  para ser buscado: ");
 
     console.log("Buscando por: " + nomeBuscado + "..."); 
 
-    
+    let index = buscaJogador(nomeBuscado)
 
+    if(index !== -1) {
 
-    // O loop passa por todas as gavetas (posições) do nosso Array 
+            let pontos = Number(prompt("Quantos pontos ele ganhou? "));
 
-    for (let i = 0; i < time.length; i++) { 
+            if(!isNaN(pontos)) {
 
-        let jogadorAtual = time[i]; // Pegamos a ficha atual para ler 
-
-        // Comparamos o nome da ficha com o nome procurado 
-
-        if (jogadorAtual.nome === nomeBuscado) {
+            time[index].pontuacao += pontos
             
-            encontrou = true; // Mudamos o status! 
+            console.log(`SUCESSO! A pontuação de ${time[index].nome} subiu para ${time[index].pontuacao} pontos`)
 
-            let pontos = parseInt(prompt("Quantos pontos ele ganhou? "));
 
-            jogadorAtual.pontuacao += pontos
-            
-            console.log(`SUCESSO! A pontuação de ${jogadorAtual.nome} .subiu para ${jogadorAtual.pontuacao} pontos`)
-            
+            }
 
-            break; // Já achamos quem queríamos, podemos parar o loop 
+            else {
+
+                console.log("Jogador encontrado, mas valor de pontos inválido. Digite um valor de pontos válido")
+            }
 
         }
-    }
-    if (encontrou === false) { 
+    else {
 
         console.log("O jogador " + nomeBuscado + " não faz parte da nossa equipe."); 
         return;
-    } 
 
+    }
 } 
 
 
@@ -215,17 +214,17 @@ while(continuar == true) {
     mostrarMenu() 
     let opcao = prompt("Digite sua opção: ")
 
-    if(opcao == "1") {
+    if(opcao === "1") {
         cadastrarJogador();
 
     }
 
-    else if ( opcao =="2" ) {
+    else if ( opcao === "2" ) {
         deletarJogador();
     }
 
 
-    else if ( opcao == "3") {
+    else if ( opcao === "3") {
 
         mostraEquipe();
     }
@@ -235,16 +234,16 @@ while(continuar == true) {
         calculoDaMedia()
     }
 
-    else if(opcao == "5") {
+    else if(opcao === "5") {
          buscarJogador()
     }
 
-     else if(opcao == "6") {
+     else if(opcao === "6") {
          atualizarPontos()
     }
 
 
-    else if(opcao == "7") {
+    else if(opcao === "7") {
         continuar = false
     }
 
