@@ -1,0 +1,76 @@
+/* ===== Base ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0d1f2d;
+  border-top: 8px solid #1aae9f;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  padding: 17px;
+}
+
+section {
+  display: flex;
+  width: 375px;
+  height: 375px;
+  padding: 16px;
+  background: #12304a;
+  border: 2px dashed #23415e;
+  border-radius: 12px;
+}
+
+.caixinhas {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+.caixinhas:nth-child(1) { background: #90caf9; }
+.caixinhas:nth-child(2) { background: #54a8ee; }
+.caixinhas:nth-child(3) { background: #3584cf; }
+.caixinhas:nth-child(4) { background: #2563a3; }
+
+/* ===== Exercise ===== */
+
+/* 1: row at the top with equal spaces */
+.cubo1 { justify-content: space-evenly; }
+
+/* 2: column at the bottom, colors reversed */
+.cubo2 { flex-direction: column-reverse; }
+
+/* 3: centered column spread from top to bottom */
+.cubo3 {
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 4: centered on both axes */
+.cubo4 {
+  justify-content: center;
+  align-items: center;
+}
+
+/* 5: bottom-right corner */
+.cubo5 {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* 6: fills the row, 2nd box twice as wide */
+.cubo6 .caixinhas { flex: 1; }
+.cubo6 .caixinhas:nth-child(2) { flex: 2; }
+
+/* 7: 3rd box white */
+.cubo7 .caixinhas:nth-child(3) { background: #fff; }
+
+/* 8: big boxes in 2 rows (wrap) */
+.cubo8 { flex-wrap: wrap; }
+.cubo8 .caixinhas {
+  width: 128px;
+  height: 128px;
+}
